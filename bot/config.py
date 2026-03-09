@@ -20,7 +20,7 @@ class Settings:
 def load_settings() -> Settings:
     load_dotenv()
 
-    telegram_bot_token = os.getenv("TELEGRAM_BOT_TOKEN", "7843932851:AAFBoWIW7MJLLIq0Dwnymjrrokj-0zRF4DA").strip()
+    telegram_bot_token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
     if not telegram_bot_token:
         raise ValueError("TELEGRAM_BOT_TOKEN is not set")
 
