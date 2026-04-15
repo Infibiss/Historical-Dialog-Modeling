@@ -1,9 +1,11 @@
 # Historical-Dialog-Modeling
 
-Telegram-бот для моделирования диалогов с историческими личностями с учетом:
+Telegram-бот для моделирования диалогов с историческими личностями с учётом:
 - речевых паттернов конкретной личности;
 - стилистики эпохи;
 - региональных диалектных особенностей.
+
+Доступные персоны: Пётр I, Екатерина II, Уинстон Черчилль.
 
 Бот доступен по имени @echoofages1_bot
 
@@ -11,13 +13,13 @@ Telegram-бот для моделирования диалогов с истор
 - Выбор исторической личности через inline-кнопки в Telegram.
 - Ведение контекстного диалога в рамках выбранной персоны.
 - Сброс контекста и повторный выбор персоны.
-- Интеграция с LLM API через POST-запрос:
-  `https://evgeniymuravyov.pythonanywhere.com/v1/chat/completions`
+- Интеграция с LLM API (OpenAI-совместимый формат, по умолчанию Mistral).
 
 ## Технологии
 - Python 3.11+
 - aiogram 3
 - aiohttp
+- aiohttp-socks (для работы через прокси)
 
 ## Быстрый старт
 1. Перейдите в папку проекта:
@@ -32,19 +34,22 @@ Telegram-бот для моделирования диалогов с истор
 3. Установите зависимости:
    ```bash
    pip install -r requirements.txt
+   pip install aiohttp-socks
    ```
-4. Создайте `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-5. Укажите токен Telegram-бота в `.env`:
+4. Создайте `.env` и заполните переменные:
    ```env
    TELEGRAM_BOT_TOKEN=...
+   LLM_API_URL=https://api.mistral.ai/v1/chat/completions
+   LLM_API_TOKEN=...
+   LLM_MODEL=mistral-small-latest
    ```
-6. Запустите бота:
+5. Запустите бота:
    ```bash
    python -m bot.main
    ```
+
+> Если Telegram недоступен напрямую, задайте переменную окружения `https_proxy` —
+> бот подхватит прокси автоматически.
 
 ## Команды бота
 - `/start` - выбрать историческую личность.
@@ -64,7 +69,7 @@ Historical-Dialog-Modeling/
 │   ├── main.py
 │   ├── personas.py
 │   └── state.py
-├── .env.example
+├── .env
 ├── .gitignore
 ├── README.md
 └── requirements.txt
