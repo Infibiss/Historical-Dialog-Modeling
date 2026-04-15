@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 
 from aiogram import Bot, Dispatcher
+from aiogram.client.session.aiohttp import AiohttpSession
 
 from .config import load_settings
 from .handlers import router, setup_dependencies
@@ -28,7 +30,9 @@ async def run_bot() -> None:
 
     setup_dependencies(session_store=session_store, llm_client=llm_client)
 
-    bot = Bot(token=settings.telegram_bot_token)
+    proxy = os.environ.get("https_proxy") or os.environ.get("HTTPS_PROXY")
+    session = AiohttpSession(proxy=proxy)
+    bot = Bot(token=settings.telegram_bot_token, session=session)
     dp = Dispatcher()
     dp.include_router(router)
 
